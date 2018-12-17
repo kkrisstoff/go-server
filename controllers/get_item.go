@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"../models"
+	"github.com/kkrisstoff/go-server/models"
 )
 
 // GetItemById get items by id
@@ -23,14 +23,18 @@ func GetItemById(w http.ResponseWriter, r *http.Request) {
 
 		if len(id) < 1 {
 			w.Write([]byte("{\"error\":\"bad request\",\"message\":\"don't have id in request\"}"))
-		} else {
-			item, err := models.ItemsStoreMapped.GetItemByID(id[0])
-			if err == nil {
-				fmt.Println(item)
-				idStr := strconv.Itoa(item.ID)
-				w.Write([]byte("{\"id\":" + idStr + ", \"id\":" + item.Message + "}"))
-			}
+			return
 		}
+
+		item, err := models.ItemsStoreMapped.GetItemByID(id[0])
+		if err != nil {
+			// handle error
+			return
+		}
+
+		fmt.Println(item)
+		idStr := strconv.Itoa(item.ID)
+		w.Write([]byte("{\"id\":" + idStr + ", \"id\":" + item.Message + "}"))
 	}
 
 }

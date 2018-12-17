@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"../models"
+	"github.com/kkrisstoff/go-server/models"
 )
 
 // GetItems get items

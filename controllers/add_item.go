@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+    "bytes"
 
-	"../models"
+	"github.com/kkrisstoff/go-server/models"
 )
 
 type reqItem struct {
-	Message string
+	message string
 }
 
 type resItem struct {
@@ -23,16 +24,25 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		decoder := json.NewDecoder(r.Body)
 		var ri reqItem
-		err := decoder.Decode(&ri)
-		if err != nil {
-			panic(err)
+
+		if err := decoder.Decode(&ri); err != nil {
+			panic(err) // sent in response
 		}
 		defer r.Body.Close()
 
-		newItem := models.ItemsStoreMapped.AddItem(ri.Message)
+		newItem := models.ItemsStoreMapped.AddItem(ri.message)
 		fmt.Println(newItem)
 		idStr := strconv.Itoa(newItem.ID)
-		w.Write([]byte("{\"id\":" + idStr + ", \"id\":" + newItem.Message + "}"))
+
+		var b bytes.Buffer
+
+		b.WriteString(`{"id":`)
+		b.WriteString(idStr)
+		b.WriteString(`, "id":`)
+		b.WriteString(newItem.Message)
+		b.WriteString("}")
+
+		w.Write(b.Bytes())
 	}
 	if r.Method == "GET" {
 		fmt.Fprintf(w, "Use POST for addidng items") // send data to client side
