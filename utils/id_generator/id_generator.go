@@ -41,5 +41,4 @@ func newIdGenerator() *idGenerator {
 	return &g
 }
 
-// Generator generator
 var Generator = newIdGenerator()

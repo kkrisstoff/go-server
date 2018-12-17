@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/kkrisstoff/go-server/api/models"
+	"github.com/kkrisstoff/go-server/models"
 )
 
 func GetItemById(w http.ResponseWriter, r *http.Request) {

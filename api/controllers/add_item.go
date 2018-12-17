@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/kkrisstoff/go-server/api/models"
+	"github.com/kkrisstoff/go-server/models"
 	"net/http"
 	"strconv"
 )
@@ -27,7 +27,7 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 
 		newItem := models.ItemsStoreMapped.AddItem(requestItem.Message)
-		fmt.Printf("Item %v has been added", newItem)
+		fmt.Printf("Item %v has been added \n", newItem)
 		idStr := strconv.Itoa(newItem.ID)
 
 		var b bytes.Buffer
