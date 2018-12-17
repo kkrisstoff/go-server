@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/kkrisstoff/go-server/models"
+	"github.com/kkrisstoff/go-server/api/models"
 )
 
 //DeleteItemById delete item by id

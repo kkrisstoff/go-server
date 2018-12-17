@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/kkrisstoff/go-server/id_generator"
+	"github.com/kkrisstoff/go-server/api/id_generator"
 )
 
 //ItemsStoreMapped Store type

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/kkrisstoff/go-server/models"
+	"github.com/kkrisstoff/go-server/api/models"
 )
 
 // GetItemById get items by id
@@ -34,7 +34,7 @@ func GetItemById(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Println(item)
 		idStr := strconv.Itoa(item.ID)
-		w.Write([]byte("{\"id\":" + idStr + ", \"id\":" + item.Message + "}"))
+		w.Write([]byte("{\"id\":" + idStr + ", \"message\":" + item.Message + "}"))
 	}
 
 }
