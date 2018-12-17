@@ -27,7 +27,7 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 
 		newItem := models.ItemsStoreMapped.AddItem(requestItem.Message)
-		fmt.Println(newItem)
+		fmt.Printf("Item %v has been added", newItem)
 		idStr := strconv.Itoa(newItem.ID)
 
 		var b bytes.Buffer
