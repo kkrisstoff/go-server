@@ -3,9 +3,8 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
-
 	"github.com/kkrisstoff/go-server/models"
+	"net/http"
 )
 
 // GetItems get items

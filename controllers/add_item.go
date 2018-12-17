@@ -1,50 +1,44 @@
 package controllers
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/kkrisstoff/go-server/models"
 	"net/http"
 	"strconv"
-    "bytes"
-
-	"github.com/kkrisstoff/go-server/models"
 )
 
 type reqItem struct {
-	message string
+	Message string `json:"message"`
 }
 
-type resItem struct {
-	id      int
-	message string
-}
-
-// AddItem add new item
 func AddItem(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		decoder := json.NewDecoder(r.Body)
-		var ri reqItem
 
-		if err := decoder.Decode(&ri); err != nil {
-			panic(err) // sent in response
+		var requestItem reqItem
+
+		err := json.NewDecoder(r.Body).Decode(&requestItem)
+		if err != nil {
+			panic(err)
+			//TODO: write errors app_error.WriteError(w, err)
 		}
+
 		defer r.Body.Close()
 
-		newItem := models.ItemsStoreMapped.AddItem(ri.message)
-		fmt.Println(newItem)
+		newItem := models.ItemsStoreMapped.AddItem(requestItem.Message)
+		fmt.Printf("Item %v has been added \n", newItem)
 		idStr := strconv.Itoa(newItem.ID)
 
 		var b bytes.Buffer
 
-		b.WriteString(`{"id":`)
-		b.WriteString(idStr)
-		b.WriteString(`, "id":`)
-		b.WriteString(newItem.Message)
-		b.WriteString("}")
+		b.WriteString(fmt.Sprintf(`{"id":%v, "message":%v}`, idStr, newItem.Message))
 
-		w.Write(b.Bytes())
+		if err != nil {
+			fmt.Println("error:", err)
+		}
 	}
 	if r.Method == "GET" {
-		fmt.Fprintf(w, "Use POST for addidng items") // send data to client side
+		fmt.Fprintf(w, "Use POST for adding items") // send data to client side
 	}
 }
