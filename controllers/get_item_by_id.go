@@ -8,15 +8,12 @@ import (
 	"github.com/kkrisstoff/go-server/models"
 )
 
-// GetItemById get items by id
-func GetItemById(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-
-	// fmt.Println(r.Form["id"])
-	// for k, v := range r.Form {
-	// 	fmt.Println("key:", k)
-	// 	fmt.Println("val:", strings.Join(v, ""))
-	// }
+func GetItemByID(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Println(err)
+		//TODO: write errors app_error.WriteError(w, err)
+	}
 
 	if r.Method == "GET" {
 		id := r.Form["id"]
@@ -34,7 +31,7 @@ func GetItemById(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Println(item)
 		idStr := strconv.Itoa(item.ID)
-		w.Write([]byte("{\"id\":" + idStr + ", \"id\":" + item.Message + "}"))
+		w.Write([]byte("{\"id\":" + idStr + ", \"message\":" + item.Message + "}"))
 	}
 
 }

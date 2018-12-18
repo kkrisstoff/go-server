@@ -1,9 +1,5 @@
 package id_generator
 
-// type idGenerator interface {
-// 	GenerateId() int32
-// }
-
 type idGenerator struct {
 	counter     int
 	generate    chan struct{}
@@ -26,12 +22,12 @@ func (g *idGenerator) generator() int {
 
 func (g *idGenerator) Generate() int {
 	g.generate <- struct{}{}
-	return <- g.getGenerate
+	return <-g.getGenerate
 }
 
 func (g *idGenerator) Current() int {
 	g.current <- struct{}{}
-	return <- g.getCurrent
+	return <-g.getCurrent
 }
 
 func newIdGenerator() *idGenerator {
@@ -45,5 +41,4 @@ func newIdGenerator() *idGenerator {
 	return &g
 }
 
-// Generator generator
 var Generator = newIdGenerator()

@@ -2,6 +2,6 @@ package models
 
 //Item struct type
 type Item struct {
-	ID      int
-	Message string
+	ID      int    `json:"id"`
+	Message string `json:"message"`
 }
