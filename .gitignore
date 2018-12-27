@@ -28,3 +28,4 @@ go-server
 
 # folders to exclude
 .idea/*
+.vscode
