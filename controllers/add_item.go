@@ -16,13 +16,10 @@ type reqItem struct {
 func AddItem(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		var requestItem reqItem
-
 		err := json.NewDecoder(r.Body).Decode(&requestItem)
 		if err != nil {
-			panic(err)
-			//TODO: write errors app_error.WriteError(w, err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-
 		defer r.Body.Close()
 
 		newItem := models.ItemsStoreMapped.AddItem(requestItem.Message)
@@ -32,12 +29,8 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 		var b bytes.Buffer
 
 		b.WriteString(fmt.Sprintf(`{"id":%s, "message":%s}`, idStr, newItem.Message))
-
-		if err != nil {
-			fmt.Println("error:", err)
-		}
 	}
-	
+
 	if r.Method == "GET" {
 		fmt.Fprintf(w, "Use POST for adding items") // send data to client side
 	}

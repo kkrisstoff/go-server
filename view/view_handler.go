@@ -13,8 +13,10 @@ type Page struct {
 }
 
 const viewsFolder = "static/"
+const viewPrefix = "/"
+const itmsView = "items"
 
-var templates = template.Must(template.ParseFiles(viewsFolder+"index.html", viewsFolder+"view.html"))
+var templates = template.Must(template.ParseFiles(viewsFolder+"index.html", viewsFolder+itmsView+".html"))
 
 func (p *Page) save() error {
 	filename := p.Title + ".txt"
@@ -31,12 +33,19 @@ func loadPage(title string) (*Page, error) {
 }
 
 func ViewHandler(w http.ResponseWriter, r *http.Request) {
-	// title := r.URL.Path[len(viewsFolder):]
-	title := "test"
-	fmt.Printf("Title: %s\n", title)
-	p, _ := loadPage(title)
-	tmpl := "index"
-	err := templates.ExecuteTemplate(w, tmpl+".html", p)
+	view := r.URL.Path[len(viewPrefix):]
+	if view == itmsView {
+		renderView(itmsView, w)
+		return
+	}
+	renderView("index", w)
+}
+
+func renderView(view string, w http.ResponseWriter) {
+	fmt.Printf("Render View %s\n", view)
+	page := "test"
+	p, _ := loadPage(page)
+	err := templates.ExecuteTemplate(w, view+".html", p)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

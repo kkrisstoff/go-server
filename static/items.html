@@ -1,0 +1,12 @@
+<h1>Page Items</h1>
+
+<p>Body: {{.Body}}</p>
+
+<form action="/api/addItem" method="POST">
+    <div>
+        <input type="text" name="message">{{printf "%s" .Body}}</input>
+    </div>
+    <div>
+        <input type="submit" value="Save">
+    </div>
+</form>
