@@ -1,37 +1,28 @@
 package controllers
 
 import (
-	"fmt"
+	"encoding/json"
+	"errors"
 	"net/http"
-	"strconv"
 
 	"github.com/kkrisstoff/go-server/models"
 )
 
 func GetItemByID(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
-	if err != nil {
-		fmt.Println(err)
-		//TODO: write errors app_error.WriteError(w, err)
-	}
+	defer r.Body.Close()
 
 	if r.Method == "GET" {
-		id := r.Form["id"]
-
-		if len(id) < 1 {
-			w.Write([]byte("{\"error\":\"bad request\",\"message\":\"don't have id in request\"}"))
-			return
+		idStr := r.URL.Query().Get("id")
+		if len(idStr) == 0 {
+			http.Error(w, errors.New("ID is not exist").Error(), http.StatusInternalServerError)
 		}
-
-		item, err := models.ItemsStoreMapped.GetItemByID(id[0])
+		item := models.ItemsStoreMapped.GetItemByID(idStr)
+		b, err := json.Marshal(item)
 		if err != nil {
-			// handle error
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		fmt.Println(item)
-		idStr := strconv.Itoa(item.ID)
-		w.Write([]byte("{\"id\":" + idStr + ", \"message\":" + item.Message + "}"))
+		w.Write([]byte(b))
 	}
 
 }

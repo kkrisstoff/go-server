@@ -19,13 +19,14 @@ export class ListComponent implements OnInit {
 
   getItems(): void {
     this.itemService.getItems()
-        .subscribe(items => this.items = items);
+      .subscribe(items => this.items = items);
   }
 
-  add(name: string): void {
+  add(name: string, message: string): void {
     name = name.trim();
+    message = message.trim();
     if (!name) { return; }
-    this.itemService.addItem({ name } as Item)
+    this.itemService.addItem({ name, message } as Item)
       .subscribe(item => {
         this.items.push(item);
       });

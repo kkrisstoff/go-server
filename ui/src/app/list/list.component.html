@@ -1,19 +1,23 @@
 <ul class="list">
   <li *ngFor="let item of items">
     <a routerLink="/detail/{{item.id}}">
-      <span class="badge">{{item.id}}</span> {{item.name}}
+      <span class="badge">{{item.id}}</span>
+      {{item.name}}: {{item.message}}
     </a>
     <button class="delete" title="delete item"
-      (click)="delete(item)">x</button>
+            (click)="delete(item)">x</button>
   </li>
 </ul>
 
 <div>
   <label>New item name:
+    <p>Title:</p>
     <input #itemName />
+    <p>Message</p>
+    <input #itemMessage />
   </label>
   <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="add(itemName.value); itemName.value=''">
+  <button (click)="add(itemName.value, itemMessage.value); itemName.value=''">
     add
   </button>
 </div>

@@ -16,12 +16,12 @@ func main() {
 }
 
 func StartServer(conf config.Config) {
-	http.HandleFunc("/", view.ViewHandler)
 	http.HandleFunc("/api/addItem", controllers.AddItem)
-	http.HandleFunc("/api/getItem", controllers.GetItemByID)
+	http.HandleFunc("/api/item", controllers.GetItemByID)
 	http.HandleFunc("/api/items", controllers.GetItems)
 	http.HandleFunc("/api/deleteItem", controllers.DeleteItemById)
 
+	http.HandleFunc("/", view.ViewHandler)
 	fmt.Printf("...starting on %s\n", conf.Port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", conf.Host, conf.Port), nil))
 }

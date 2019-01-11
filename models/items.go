@@ -1,8 +1,6 @@
 package models
 
-
 import (
-	"errors"
 	"fmt"
 	"strconv"
 
@@ -12,6 +10,7 @@ import (
 //Item struct type
 type Item struct {
 	ID      int    `json:"id"`
+	Name    string `json:"name"`
 	Message string `json:"message"`
 }
 
@@ -28,10 +27,11 @@ var ItemsStoreMapped = ItemsStoreMappedType{
 }
 
 //AddItem adds new item to store
-func (items ItemsStoreMappedType) AddItem(message string) Item {
+func (items ItemsStoreMappedType) AddItem(name string, message string) Item {
 	id := getID()
 	item := Item{
 		ID:      id,
+		Name:    name,
 		Message: message,
 	}
 	items.Store[id] = item
@@ -47,13 +47,10 @@ func (items ItemsStoreMappedType) GetItems() []Item {
 }
 
 //GetItemByID get item by id
-func (items ItemsStoreMappedType) GetItemByID(idStr string) (Item, error) {
+func (items ItemsStoreMappedType) GetItemByID(idStr string) Item {
 	id := idToInt(idStr)
-	item, ok := items.Store[id]
-	if ok {
-		return item, nil
-	}
-	return Item{}, errors.New("ID is not exist")
+	item := items.Store[id]
+	return item
 }
 
 //DeleteItemByID delete item by id
