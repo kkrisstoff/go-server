@@ -39,8 +39,7 @@ export class ItemService {
   }
 
   getItem(id: number): Observable<Item> {
-    const url = `${this.apiPrefix}/item`;
-    return this.http.get<Item>(url, {
+    return this.http.get<Item>(`${this.apiPrefix}/item`, {
       params: {id: id.toString()}
     })
       .pipe(
@@ -50,7 +49,7 @@ export class ItemService {
   }
 
   updateItem (item: Item): Observable<any> {
-    return this.http.put(`${this.apiPrefix}/updateItem`, item, httpOptions)
+    return this.http.put(`${this.apiPrefix}/item`, item, httpOptions)
       .pipe(
         tap(_ => this.log(`updated item id=${item.id}`)),
         catchError(this.handleError<any>('updateItem'))
@@ -59,21 +58,25 @@ export class ItemService {
 
   /** POST: add a new hero to the server */
   addItem (item: Item): Observable<Item> {
-    return this.http.post<Item>(`${this.apiPrefix}/addItem`, item, httpOptions).pipe(
-      tap((i: Item) => this.log(`added new item w/ id=${i.id}`)),
-      catchError(this.handleError<Item>('addItem'))
-    );
+    return this.http.post<Item>(`${this.apiPrefix}/addItem`, item, httpOptions)
+      .pipe(
+        tap((i: Item) => this.log(`added new item w/ id=${i.id}`)),
+        catchError(this.handleError<Item>('addItem'))
+      );
   }
 
   /** DELETE: delete the hero from the server */
   deleteItem (item: Item | number): Observable<Item> {
     const id = typeof item === 'number' ? item : item.id;
-    const url = `${this.apiPrefix}/deleteItem/${id}`;
 
-    return this.http.delete<Item>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted item id=${id}`)),
-      catchError(this.handleError<Item>('deleteItem'))
-    );
+    return this.http.delete<Item>(`${this.apiPrefix}/item`, {
+      ...httpOptions,
+      params: {id: id.toString()}
+    })
+      .pipe(
+        tap((i: Item) => this.log(`deleted item id=${i.id}`)),
+        catchError(this.handleError<Item>('deleteItem'))
+      );
   }
 
   /**

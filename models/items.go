@@ -40,6 +40,17 @@ func (items ItemsStoreMappedType) AddItem(name string, message string) Item {
 	//fmt.Printf("New item id: %d, message: %v\n", id, message)
 	return item
 }
+func (items ItemsStoreMappedType) UpdateItem(id int, name string, message string) Item {
+	item := Item{
+		ID:      id,
+		Name:    name,
+		Message: message,
+	}
+	items.Store[id] = item
+	items.length++
+
+	return item
+}
 
 //GetItems get all items
 func (items ItemsStoreMappedType) GetItems() []Item {

@@ -11,7 +11,10 @@ import { ItemService } from '../item.service';
 export class ListComponent implements OnInit {
   items: Item[];
 
-  constructor(private itemService: ItemService) { }
+  constructor(private itemService: ItemService) {
+    // TODO: why items is null?
+    this.items = [];
+  }
 
   ngOnInit() {
     this.getItems();
@@ -19,12 +22,11 @@ export class ListComponent implements OnInit {
 
   getItems(): void {
     this.itemService.getItems()
-      .subscribe(items => this.items = items);
+        .subscribe(items => this.items = items);
   }
 
   add(name: string, message: string): void {
     name = name.trim();
-    message = message.trim();
     if (!name) { return; }
     this.itemService.addItem({ name, message } as Item)
       .subscribe(item => {
@@ -34,6 +36,6 @@ export class ListComponent implements OnInit {
 
   delete(item: Item): void {
     this.items = this.items.filter(i => i !== item);
-    this.itemService.deleteItem(item).subscribe();
+    this.itemService.deleteItem(item).subscribe(console.log);
   }
 }

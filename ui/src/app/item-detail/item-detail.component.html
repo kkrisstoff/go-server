@@ -2,8 +2,12 @@
   <h2>{{item.name | uppercase}} Details</h2>
   <div><span>id: </span>{{item.id}}</div>
   <div>
-    <label>name:
-      <input [(ngModel)]="item.name" placeholder="name">
+    <label>Name:
+      <input [(ngModel)]="item.name" placeholder="Name">
+    </label>
+
+    <label>Message:
+      <input [(ngModel)]="item.message" placeholder="Message">
     </label>
   </div>
   <button (click)="goBack()">go back</button>

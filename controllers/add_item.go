@@ -29,6 +29,7 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		fmt.Printf("MSG: %s\n", requestItem.Message)
 		newItem := models.ItemsStoreMapped.AddItem(requestItem.Name, requestItem.Message)
 		body, err := json.Marshal(message{
 			newItem.ID,
@@ -40,7 +41,7 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fmt.Printf("Item %v has been added.\n", body)
+		fmt.Printf("Item %v has been added.\n", newItem)
 		w.Write([]byte(body))
 	}
 
