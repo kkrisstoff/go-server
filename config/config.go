@@ -2,25 +2,30 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
+	"go.uber.org/zap"
 	"os"
 )
 
-const configFile = "config/config.json"
+var (
+	Logger *zap.Logger
+)
 
 type Config struct {
-	Port string `json:"port"`
-	Host string `json:"host"`
+	Port    string
+	Name    string
+	Version string
 }
 
-func GetConfig() (Config, error) {
-	var config Config
-	configFile, err := os.Open(configFile)
-	defer configFile.Close()
+func Parser() Config {
+	file, _ := os.Open("./conf.json")
+	decoder := json.NewDecoder(file)
+	configuration := Config{}
+	err := decoder.Decode(&configuration)
 	if err != nil {
-		return config, err
+		fmt.Println("error:", err)
 	}
+	fmt.Println(configuration.Port)
 
-	decoder := json.NewDecoder(configFile)
-	err = decoder.Decode(&config)
-	return config, err
+	return configuration
 }
