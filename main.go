@@ -1,20 +1,27 @@
 package main
 
 import (
+	"fmt"
+	"github.com/kkrisstoff/go-server/config"
 	"github.com/kkrisstoff/go-server/controllers"
+	"github.com/kkrisstoff/go-server/view"
 	"log"
 	"net/http"
 )
 
 func main() {
-	StartServer()
+	conf, _ := config.GetConfig()
+	// TODO: handle error
+	startServer(conf)
 }
 
-
-func StartServer() {
+func startServer(conf config.Config) {
 	http.HandleFunc("/api/addItem", controllers.AddItem)
-	http.HandleFunc("/api/getItem", controllers.GetItemByID)
+	http.HandleFunc("/api/item", controllers.Item)
 	http.HandleFunc("/api/items", controllers.GetItems)
-	http.HandleFunc("/api/deleteItem", controllers.DeleteItemById)
-	log.Fatal(http.ListenAndServe(":9091", nil))
+
+	// TODO: refactor static folder
+	http.HandleFunc("/", view.ViewHandler)
+	fmt.Printf("...starting on %s\n", conf.Port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", conf.Host, conf.Port), nil))
 }
