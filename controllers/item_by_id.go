@@ -1,14 +1,15 @@
 package controllers
 
 import (
-	"fmt"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/kkrisstoff/go-server/models"
 )
 
+// Item handelt item by ID TODO: refactor
 func Item(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
@@ -37,7 +38,7 @@ func Item(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "PUT" {
 		var requestItem struct {
-			ID int `json:"id"`
+			ID      int    `json:"id"`
 			Name    string `json:"name"`
 			Message string `json:"message"`
 		}

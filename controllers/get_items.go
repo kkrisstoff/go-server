@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// GetItems get all items
 func GetItems(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
@@ -18,5 +19,6 @@ func GetItems(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.Write([]byte(b))
+		return
 	}
 }

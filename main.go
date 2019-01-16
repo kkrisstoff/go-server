@@ -12,14 +12,15 @@ import (
 func main() {
 	conf, _ := config.GetConfig()
 	// TODO: handle error
-	StartServer(conf)
+	startServer(conf)
 }
 
-func StartServer(conf config.Config) {
+func startServer(conf config.Config) {
 	http.HandleFunc("/api/addItem", controllers.AddItem)
 	http.HandleFunc("/api/item", controllers.Item)
 	http.HandleFunc("/api/items", controllers.GetItems)
 
+	// TODO: refactor static folder
 	http.HandleFunc("/", view.ViewHandler)
 	fmt.Printf("...starting on %s\n", conf.Port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", conf.Host, conf.Port), nil))

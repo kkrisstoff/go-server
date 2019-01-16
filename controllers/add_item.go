@@ -19,6 +19,7 @@ type message struct {
 	Message string `json:"message"`
 }
 
+// AddItem add new item
 func AddItem(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
@@ -43,9 +44,11 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Printf("Item %v has been added.\n", newItem)
 		w.Write([]byte(body))
+		return
 	}
 
 	if r.Method == "GET" {
 		fmt.Fprintf(w, "Use POST for adding new item")
+		return
 	}
 }

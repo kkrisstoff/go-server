@@ -7,26 +7,26 @@ import (
 	"github.com/kkrisstoff/go-server/utils/id_generator"
 )
 
-//Item struct type
+// Item struct type
 type Item struct {
 	ID      int    `json:"id"`
 	Name    string `json:"name"`
 	Message string `json:"message"`
 }
 
-//ItemsStoreMapped Store type
+// ItemsStoreMappedType Store type
 type ItemsStoreMappedType struct {
 	length int
 	Store  map[int]Item
 }
 
-//ItemsStoreMapped instance
+// ItemsStoreMapped instance
 var ItemsStoreMapped = ItemsStoreMappedType{
 	0,
 	map[int]Item{},
 }
 
-//AddItem adds new item to store
+// AddItem adds new item to store
 func (items ItemsStoreMappedType) AddItem(name string, message string) Item {
 	id := getID()
 	item := Item{
@@ -37,9 +37,10 @@ func (items ItemsStoreMappedType) AddItem(name string, message string) Item {
 	items.Store[id] = item
 	items.length++
 
-	//fmt.Printf("New item id: %d, message: %v\n", id, message)
 	return item
 }
+
+// UpdateItem updates item by ID
 func (items ItemsStoreMappedType) UpdateItem(id int, name string, message string) Item {
 	item := Item{
 		ID:      id,
@@ -52,19 +53,19 @@ func (items ItemsStoreMappedType) UpdateItem(id int, name string, message string
 	return item
 }
 
-//GetItems get all items
+// GetItems get all items
 func (items ItemsStoreMappedType) GetItems() []Item {
 	return mapToSlice(items.Store)
 }
 
-//GetItemByID get item by id
+// GetItemByID get item by id
 func (items ItemsStoreMappedType) GetItemByID(idStr string) Item {
 	id := idToInt(idStr)
 	item := items.Store[id]
 	return item
 }
 
-//DeleteItemByID delete item by id
+// DeleteItemByID delete item by id
 func (items ItemsStoreMappedType) DeleteItemByID(idStr string) {
 	id := idToInt(idStr)
 	delete(items.Store, id)
