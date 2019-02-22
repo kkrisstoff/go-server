@@ -28,3 +28,11 @@ go-server
 
 # folders to exclude
 .idea/*
+.vscode
+
+# ui folder
+ui/yarn.lock
+ui/node_modules
+ui/dist
+ui/tmp
+ui/out-tsc
