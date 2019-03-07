@@ -1,0 +1,27 @@
+{{define "title"}}{{.Title}}{{end}}
+{{define "body"}}
+    <h1>{{.Title}}</h1>
+
+    <form action="/add" method="POST">
+        <div>
+            <label>Name:</label>
+            <input type="text" name="name" />
+        </div>
+        <div>
+            <label>Message:</label>
+            <input type="text" name="message" />
+        </div>
+        <div>
+            <input type="submit" value="Save">
+        </div>
+    </form>
+
+    <ul>
+    {{range .Items}}
+        {{$name := .Name}}
+        {{$message := .Message}}
+        <li>Nane: {{$name}}; Message: {{$message}}</li>
+    {{end}}
+    </ul>
+
+{{end}}

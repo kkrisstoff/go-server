@@ -1,0 +1,13 @@
+body {
+    background-color: #eee;
+    font-family: sans-serif;
+}
+
+h1 {
+    color: #2A1959;
+    border-bottom: 2px solid #2A1959;
+}
+
+li {
+   list-style: none 
+}
