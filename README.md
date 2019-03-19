@@ -36,6 +36,10 @@ Or add Chrome Exension:
 https://chrome.google.com/webstore/detail/allow-control-allow-origi/
 
 
+## Test Items UI:
+- http://localhost:9091/items
+
+
 
 ## API:
 - `GET /api/getItem?id={id}`
