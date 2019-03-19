@@ -2,6 +2,7 @@ package view
 
 import (
 	"fmt"
+	"github.com/kkrisstoff/go-server/csv"
 	"github.com/kkrisstoff/go-server/models"
 	"html/template"
 	"io/ioutil"
@@ -63,7 +64,7 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-
+	csv.ReadData()
 	renderItems(w, fp)
 	// renderView("index", w)
 }
@@ -82,6 +83,7 @@ func AddItem(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	message := r.FormValue("message")
 	models.ItemsStoreMapped.AddItem(name, message)
+	csv.WriteData(name, message)
 	// renderItems(w)
 }
 
